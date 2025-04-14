@@ -32,7 +32,7 @@ function update() {
   if (Math.abs(ball.dx) < 0.1) ball.dx = 0;
   if (Math.abs(ball.dy) < 0.1) ball.dy = 0;
 
-  // Deliğe girme
+  // Deliğe girme kontrolü
   const dist = Math.hypot(ball.x - hole.x, ball.y - hole.y);
   if (dist < ball.radius + hole.radius) {
     alert(Tebrikler Oyuncu ${currentPlayer}, topu deliğe soktun!);
@@ -41,12 +41,20 @@ function update() {
   }
 
   // Kenarlardan sekme
-  if (ball.x < ball.radius || ball.x > canvas.width - ball.radius) ball.dx *= -1;
-  if (ball.y < ball.radius || ball.y > canvas.height - ball.radius) ball.dy *= -1;
+  if (ball.x < ball.radius || ball.x > canvas.width - ball.radius) {
+    ball.dx *= -1;
+  }
+  if (ball.y < ball.radius || ball.y > canvas.height - ball.radius) {
+    ball.dy *= -1;
+  }
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Arka plan
+  ctx.fillStyle = '#fdf6e3';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Deliği çiz
   ctx.beginPath();
@@ -59,6 +67,11 @@ function draw() {
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
   ctx.fillStyle = currentPlayer === 1 ? 'red' : 'blue';
   ctx.fill();
+
+  // Oyuncu adlarını yaz
+  ctx.fillStyle = '#444';
+  ctx.font = '16px Arial';
+  ctx.fillText(Sıra: ${currentPlayer === 1 ? 'Habat' : 'Helin'}, 10, 20);
 }
 
 function loop() {
